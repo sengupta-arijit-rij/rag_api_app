@@ -1,6 +1,6 @@
 # API Configuration
 DEBUG=True
-PORT=5001
+PORT=5003
 
 # Ollama Configuration
-OLLAMA_BASE_URL=http://localhost:11434
+OLLAMA_BASE_URL=http://127.0.0.1:11434

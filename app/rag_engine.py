@@ -1,11 +1,21 @@
 import os
+import logging
+import time
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, Settings, PromptTemplate
 from llama_index.embeddings.ollama import OllamaEmbedding
 from llama_index.llms.ollama import Ollama
 from typing import Dict, Any
 
 class RAGEngine:
-    def __init__(self, base_dir: str = os.getcwd(), ollama_base_url: str = "http://localhost:11434"):
+    
+    # Set up logging configuration
+    logging.basicConfig(level=logging.DEBUG,  # You can set this to INFO, WARNING, ERROR depending on the verbosity
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+    # Create a logger for the llama_index package (if it's using logging)
+    logger = logging.getLogger('VectorStoreIndex')
+    logging.getLogger('numpy').setLevel(logging.DEBUG)
+    def __init__(self, base_dir: str = os.getcwd(), ollama_base_url: str = "http://127.0.0.1:11434"):
         
         self.base_dir = base_dir
         self.document_dir = os.path.join(base_dir, "DocumentDir")
@@ -79,9 +89,14 @@ class RAGEngine:
             documents = SimpleDirectoryReader(input_dir=self.document_dir).load_data()
             print(f"Loaded {len(documents)} documents")
             
+            print("Index creation started")
+            start_time = time.time()
             # Create index
             self.index = VectorStoreIndex.from_documents(documents)
+            end_time = time.time()
+
             print("Index created successfully")
+            print(f"Time taken: {end_time - start_time} seconds")
             
             return {"status": "success", "document_count": len(documents)}
         except Exception as e:

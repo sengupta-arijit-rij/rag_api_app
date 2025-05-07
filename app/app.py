@@ -13,8 +13,8 @@ CORS(app)  # Enable CORS for all routes
 
 # Load configuration
 DEBUG = os.environ.get("DEBUG", "True").lower() == "true"
-PORT = int(os.environ.get("PORT", 5001))
-OLLAMA_BASE_URL = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434")
+PORT = int(os.environ.get("PORT", 5003))
+OLLAMA_BASE_URL = os.environ.get("OLLAMA_BASE_URL", "http://127.0.0.1:11434")
 
 # Initialize RAG engine
 rag_engine = RAGEngine(base_dir=os.getcwd(), ollama_base_url=OLLAMA_BASE_URL)
